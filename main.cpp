@@ -2,9 +2,15 @@
 //  main.cpp
 //  Student_information_system_look_up
 //
-//  Created by Leo Jia on 2018-04-17.
+//  Created by Leo Jia on 2018-05-23.
 //  Copyright © 2018 Leo Jia. All rights reserved.
 //
+
+
+// All the path in the following code can be changed by user's demand.
+// It is just a sample which works on my computer
+
+// Require: all the pointers are valid
 
 #include <iostream>
 #include <fstream>
@@ -17,6 +23,8 @@
 
 using namespace std;
 
+
+// Set student structure for user to input student information; be able to add more sections if user want;
 struct student {
     bool coop;
     string name;
@@ -32,11 +40,15 @@ struct student {
     int current_gpa;
 };
 
+
+// combine(a, b) a helper function to combine two strings--concatenation
+// requires: valid string a and b
 string combine(string a, string b) {
     return a + b;
 }
 
-
+// open()  create a txt file(student profile) and name it by user input in ceratain folder (by user input)
+// effect: produce output
 void open() {
     cout << "Please enter the name of the university: ";
     string univer;
@@ -44,13 +56,16 @@ void open() {
     cout <<"Please enter the name of the student: ";
     string name;
     cin >> name;
-    string path  = combine(combine(combine(combine("/Users/Leo/Desktop/", univer),"/"),name),".txt");
+    string path  = combine(combine(combine(combine("/Users/Leo/Desktop/", univer),"/"),name),".txt");  // the path can be changed by user demands;
     char cmd[1024];
     memset(cmd,0,1024);
     sprintf(cmd, "open %s", path.c_str());
     system(cmd);
 }
 
+
+// mydelete() delete a certain file by user input; find wanted file by entering the directory and name of the file
+// effect: deleting file
 void mydelete() {
     cout << "Please enter the name of the university: ";
     string univer;
@@ -65,6 +80,10 @@ void mydelete() {
     system(cmd);
 }
 
+
+// check_psw(pass) by passing a string, pass, check whether it is legal (contains at least one upper char, one special char with length at least 8
+// return true if it satisfies above requirements, and false otherwise
+// effect: produce output
 bool check_psw(string pass) {
     int count = 1;
     int upper = 0;
@@ -77,6 +96,9 @@ bool check_psw(string pass) {
     return (count >= 8) && upper && special;
 }
 
+
+// print(struct student *s) print all the student's information by passing a pointer to a student structure
+// effect: produce output
 void print(struct student *s) {
     cout<< "Student name: "<<s->name<<endl;
     cout<< "Student's number: "<<s->number<<endl;
@@ -92,6 +114,10 @@ void print(struct student *s) {
     }
 }
 
+
+// fix(struct student *s) locate the section that user want to change by inquiring a string/
+// change the content of that section by user's input
+// effect: change the content of the structure
 void fix(struct student *s) {
     cout << "Which section do you want to fix? "<<endl;
     string selection;
@@ -145,6 +171,8 @@ void fix(struct student *s) {
 }
 
 
+// info (struct student *stud) enter student's information by user input;
+// effect: change structure's content
 void info(struct student *stud) {
     string num;
     int hei;
@@ -226,6 +254,10 @@ void info(struct student *stud) {
 }
 
 
+
+// write_file (struct student* s, string university) by pass a structrue and a string, university, a file will be
+// created by the name of the student, s, and write every element in structrue to that file
+// effect: produce output
 void write_file (struct student *s, string university) {
     string fname = s->name;
     ostringstream testfile;
@@ -256,7 +288,10 @@ void write_file (struct student *s, string university) {
         myfile << "Stduent's in Coop program: "<<s->coop<<"\n";
     }
 }
-    
+
+
+// build_folder() return a valid path for folder named by user's input
+// effect: produce output
 string build_folder () {
     cout<<"Please enter the name of school(use '_' to indicate ' ': ";
     char cmd_str[1024];
@@ -321,7 +356,7 @@ int main() {
         cout << "Do you want to delete the file? (y/n) ";
         char d;
         cin >> d;
-        if (d == 'y') mydelete();
+        if (d == 'y') mydelete();                                // be able to do more deleting if needed, change to a "while" loop is simple
         cout<<"Thanks for using!"<<endl;
     }
     return 0;
